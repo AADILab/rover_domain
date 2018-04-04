@@ -8,8 +8,8 @@ from rover_domain import Task_Rovers
 def parse_args():
     parser = argparse.ArgumentParser("Rover domain argument parser")
     # Environment
-    parser.add_argument("--dim_x", type=float, default=20, help="height of env")
-    parser.add_argument("--dim_y", type=float, default=20, help="width of env")
+    parser.add_argument("--dim_x", type=int, default=20, help="width of env")
+    parser.add_argument("--dim_y", type=int, default=20, help="height of env")
     parser.add_argument("--num_poi", type=int, default=1, help="number of pois")
     parser.add_argument("--num_rover", type=int, default=1, help="number of agents")
     parser.add_argument("--action_dim", type=int, default=4, help="Action dimensions")
