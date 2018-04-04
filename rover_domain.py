@@ -8,7 +8,7 @@ class Task_Rovers:
 
     def __init__(self, parameters):
         self.params = parameters; self.dim_x = parameters.dim_x; self.dim_y = parameters.dim_y
-        self.observation_space = np.zeros((2*360 / self.params.angle_res + 4, 1))
+        self.observation_space = np.zeros((2*int(360 / self.params.angle_res) + 4, 1))
         self.action_space = np.zeros((self.params.action_dim,1))
 
         # Initialize food position container
@@ -103,6 +103,7 @@ class Task_Rovers:
         self.reset_poi_pos()
         self.reset_rover_pos()
         self.poi_status = self.poi_status = [False for _ in range(self.params.num_poi)]
+        
         self.util_macro = [[False, False, False] for _ in range(self.params.num_rover)]  # Macro utilities to track [Is_currently_active?, Is_activated_now?, Is_reached_destination?]
         self.rover_path = [[(loc[0], loc[1])] for loc in self.rover_pos]
         self.action_seq = [[0.0 for _ in range(self.params.action_dim)] for _ in range(self.params.num_rover)]
@@ -119,10 +120,10 @@ class Task_Rovers:
 
             self_x = self.rover_pos[rover_id][0]; self_y = self.rover_pos[rover_id][1]
 
-            rover_state = [0.0 for _ in range(360 / self.params.angle_res)]
-            poi_state = [0.0 for _ in range(360 / self.params.angle_res)]
-            temp_poi_dist_list = [[] for _ in range(360 / self.params.angle_res)]
-            temp_rover_dist_list = [[] for _ in range(360 / self.params.angle_res)]
+            rover_state = [0.0 for _ in range(int(360 / self.params.angle_res))]
+            poi_state = [0.0 for _ in range(int(360 / self.params.angle_res))]
+            temp_poi_dist_list = [[] for _ in range(int(360 / self.params.angle_res))]
+            temp_rover_dist_list = [[] for _ in range(int(360 / self.params.angle_res))]
 
             # Log all distance into brackets for POIs
             x2 = -1.0; y2 = 0.0
@@ -234,12 +235,13 @@ class Task_Rovers:
         drone_symbol_bank = ["0", "1", '2', '3', '4', '5']
         for rover_pos, symbol in zip(self.rover_pos, drone_symbol_bank):
             x = int(rover_pos[0]); y = int(rover_pos[1])
-            #print x,y
             grid[x][y] = symbol
 
 
         # Draw in food
         for loc, status in zip(self.poi_pos, self.poi_status):
+            print (self.poi_pos)
+            print (loc)
             x = int(loc[0]); y = int(loc[1])
             marker = 'I' if status else 'A'
             grid[x][y] = marker
