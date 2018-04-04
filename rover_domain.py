@@ -1,7 +1,8 @@
 import random
 from random import randint
 import numpy as np
-import math, cPickle
+import math
+import _pickle as cPickle
 
 class Task_Rovers:
 
@@ -244,8 +245,8 @@ class Task_Rovers:
             grid[x][y] = marker
 
         for row in grid:
-            print row
-        print
+            print (row)
+        print ()
 
     def render(self):
         # Visualize
@@ -268,10 +269,10 @@ class Task_Rovers:
             grid[x][y] = marker
 
         for row in grid:
-            print row
-        print
+            print (row)
+        print ()
 
-        print '------------------------------------------------------------------------'
+        print ('------------------------------------------------------------------------')
 
 
 
