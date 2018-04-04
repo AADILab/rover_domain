@@ -154,14 +154,16 @@ class Task_Rovers:
                 # POIs
                 num_poi = len(temp_poi_dist_list[bracket])
                 if num_poi > 0:
-                    if self.params.sensor_model == 1: poi_state[bracket] = sum(temp_poi_dist_list[bracket]) / num_poi #Density Sensor
+                    if self.params.sensor_model:
+                        poi_state[bracket] = sum(temp_poi_dist_list[bracket]) / num_poi #Density Sensor
                     else: poi_state[bracket] = min(temp_poi_dist_list[bracket])  #Minimum Sensor
                 else: poi_state[bracket] = -1.0
 
                 #Rovers
                 num_rover = len(temp_rover_dist_list[bracket])
                 if num_rover > 0:
-                    if self.params.sensor_model == 1: rover_state[bracket] = sum(temp_rover_dist_list[bracket]) / num_rover #Density Sensor
+                    if self.params.sensor_model:
+                        rover_state[bracket] = sum(temp_rover_dist_list[bracket]) / num_rover #Density Sensor
                     else: rover_state[bracket] = min(temp_rover_dist_list[bracket]) #Minimum Sensor
                 else: rover_state[bracket] = -1.0
 
@@ -203,7 +205,7 @@ class Task_Rovers:
         for rover_id in range(self.params.num_rover):
             self.rover_path[rover_id].append((self.rover_pos[rover_id][0], self.rover_pos[rover_id][1]))
 
-        return self.get_joint_state(), self.get_reward()
+        return self.get_joint_state(), self.get_reward(), False, None
 
     def get_reward(self):
         #Update POI's visibility
@@ -240,8 +242,6 @@ class Task_Rovers:
 
         # Draw in food
         for loc, status in zip(self.poi_pos, self.poi_status):
-            print (self.poi_pos)
-            print (loc)
             x = int(loc[0]); y = int(loc[1])
             marker = 'I' if status else 'A'
             grid[x][y] = marker
