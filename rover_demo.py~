@@ -1,0 +1,32 @@
+import argparse
+import numpy as np
+import os
+import random
+
+from rover_domain import Task_Rovers
+
+class Parameters(object):
+    def __init__(self):
+        self.dim_x = None
+        self.dim_y = None
+        self.angle_res = None
+        self.num_poi = None
+        self.action_dim = None
+        self.num_rover = None
+        self.unit_test = None
+        
+def parse_args():
+    parser = argparse.ArgumentParser("")
+    # Environment
+    parser.add_argument("--dim_x", type=str, default="simple", help="height of env")
+    parser.add_argument("--dim_y", type=int, default=25, help="width of env")
+    parser.add_argument("--num_poi", type=int, default=1, help="number of pois")
+    parser.add_argument("--num_rover", type=int, default=1, help="number of agents")
+    parser.add_argument("--action_dim", type=str, default="maddpg", help="policy for good agents")
+    parser.add_argument("--unit_test", type=str, default="maddpg", help="policy of adversaries")
+    # Core training parameters
+    parser.add_argument("--angle_res", type=float, default=1e-2, help="learning rate for Adam optimizer")
+    return parser.parse_args()
+
+if __name__ == "__main__":
+    pass

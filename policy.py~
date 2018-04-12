@@ -1,0 +1,12 @@
+import numpy as np
+
+class Policy(object):
+
+    def __init__(self, input_shape, output_shape, *args=None, **kwargs=None):
+        pass
+
+    def get_next(self, *args=None, **kwargs=None):
+        pass
+
+    def get_train(self, *args=None, **kwargs=None):
+        pass

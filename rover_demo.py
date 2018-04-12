@@ -5,7 +5,7 @@ import random
 import logging
 
 from rover_domain import Task_Rovers
-from policy import RandomPolicy
+from policy import RandomPolicy, Evo_MLP
 
 def parse_args():
     parser = argparse.ArgumentParser("Rover domain argument parser")
@@ -26,12 +26,12 @@ def parse_args():
     parser.add_argument("--coupling", type=int, default=1, help="POI's required for observation")
     parser.add_argument("--obs_radius", type=float, default=4.0,
                         help="POI observation radius")
-    parser.add_argument("--sensor_model", type=bool, default=1,
+    parser.add_argument("--sensor_model", type=bool, default=True,
                         help="True for density sensor, false for minimum")
     return parser.parse_args()
 
 def joint_action(policies, joint_input):
-    return [f(x) for f,x in zip(policies, joint_input)]
+    return [f(x).data.numpy() for f,x in zip(policies, joint_input)]
 
 if __name__ == "__main__":
     arglist = parse_args()
@@ -41,9 +41,20 @@ if __name__ == "__main__":
     policy = RandomPolicy(output_shape=2, low=-1, high=1)
     policies = [policy.get_next() for _ in range(arglist.num_rover)]
 
+    networks = [Evo_MLP(12,2) for _ in range(arglist.num_rover)]
+    policies = [net.get_next() for net in networks]
+    updates  = [net.get_evo() for net in networks]
+
     obs = domain.reset()
     for _ in range(arglist.num_timestep):
+        print ("Step")
         action = joint_action(policies, obs)
+        print (action)
+        for f in updates:
+            f()
+        action = joint_action(policies, obs)
+        print (action)
+        
         next_obs, reward, done, info  = domain.step(action)
         obs = next_obs
 

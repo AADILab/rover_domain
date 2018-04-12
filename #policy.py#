@@ -74,8 +74,36 @@ class CCEA(object):
     def __init__(self, population, fitness, update, selection):
         """
         :param population: 2D numpy array
+        :param fitness: 1D numpy array of policies -> 1D numpy array of doubles of results
         """
         self.pop_size  = population.shape[0]
         self.team_size = population.shape[1]
 
         self.population = population
+        self.update     = update
+        self.selection  = selection
+
+    def evolve(self):
+        idx_n = []
+
+        for _ in range(0, self.pop_size):
+            idx = range(0, self.team_size)
+            np.random.shuffle(idx)
+            idx_n.append(idx)
+
+        results = []
+        for t in range(0, self.team_size):
+            policies = []
+            for p in range(0, self.pop_size):
+                index = idx_n[p][t]
+                policies.append(self.population[p][t])
+
+            scores = self.fitness(np.array(policies))
+            results.append(scores)
+
+        results = results.transpose()
+
+        for i, pool in enumerate(self.population):
+            pool_results = results[i]
+            self.population[i] = self.selection(pool, pool_results)y
+        

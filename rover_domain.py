@@ -179,7 +179,7 @@ class Task_Rovers:
             #state = np.array(state)
             joint_state.append(state)
 
-        return joint_state
+        return np.array(joint_state)
 
     def get_angle_dist(self, x1, y1, x2,y2):  # Computes angles and distance between two predators relative to (1,0) vector (x-axis)
         dot = x2 * x1 + y2 * y1  # dot product
