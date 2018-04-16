@@ -19,7 +19,7 @@ class Simulator(object):
         """
         pass
 
-    def reset(self, *args, **kwargs):
+    def reset(self):
         """ Resets the simulator.
 
         Random initialization is re-initialized from the same random seed.

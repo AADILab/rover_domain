@@ -30,13 +30,12 @@ class Team(object):
         """
         pass
 
-    def get_agent_observations(self, jointstate):
+    def get_agent_observation(self, jointstate, agent_id, world_to_agent):
         """ get_agent_observations
         For debugging and testing purposes, returns the observation given
-        to individual agents that they use to determine their actions.
+        to an individual agent that they use to determine their actions.
 
         :param jointstate: A dictionary of all relevant information
-        :returns: A dictionary mapping between agents and the observation given
-        to each one.
+        :returns: The observation given to a single agent.
         """
         pass
