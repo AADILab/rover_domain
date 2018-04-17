@@ -78,10 +78,10 @@ class RoverTeam(Team):
         nst = sin(-theta)
 
         world_to_agent = lambda xo, yo: (cost * (xo - xin) - sint * (yo - yin),
-                                         cost * (xo - xin) + sint * (yo - yin))
+                                         sint * (xo - xin) + cost * (yo - yin))
 
         agent_to_world = lambda xo, yo: (nct * xo - nst * yo,
-                                         nct * xo + nst * yo)
+                                         nst * xo + nct * yo)
         return world_to_agent, agent_to_world
 
     def get_agent_observation(self, jointstate, agent_id, world_to_agent):
@@ -94,30 +94,30 @@ class RoverTeam(Team):
 
         :param jointstate: Dictionary containing both agent and poi info,
         should be {agents : { agent_id : info }, pois : { poi_id : info }}
-        :returns: Observation is numpy array representing quadrant counts 
+        :returns: Observation is numpy array representing quadrant counts
         (in agent frame) of pois and agents.
         """
-        agent_obs = np.zeros(8, 1)
+        agent_obs = np.zeros(8)
 
         if self.use_distance:
-            agent_loc = jointstate['agents'][agent_id][0]
+            agent_loc = jointstate['agents'][agent_id]['loc']
 
-        for _, poi in jointstate['pois']:
-            new_loc = world_to_agent(poi['loc'])
+        for _, poi in jointstate['pois'].items():
+            new_loc = world_to_agent(*poi['loc'])
             quad = self.get_quad(new_loc)
             increment = 1 # Current no value to POI, change to poi['value']
             if self.use_distance:
-                increment /= self.distance(new_loc, agent_loc)
+                increment /= self.distance(poi['loc'], agent_loc)
             agent_obs[quad] += increment
 
-        for other_id, agent in jointstate['agents']:
+        for other_id, agent in jointstate['agents'].items():
             if agent_id == other_id:
                 continue
-            new_loc = world_to_agent(agent['loc'])
+            new_loc = world_to_agent(*agent['loc'])
             quad = self.get_quad(new_loc)
             increment = 1
             if self.use_distance:
-                increment /= self.distance(new_loc, agent_loc)
+                increment /= self.distance(agent['loc'], agent_loc)
             agent_obs[quad + 4] += increment
 
         return agent_obs
