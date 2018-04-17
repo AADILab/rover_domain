@@ -22,26 +22,26 @@ def assertFloat(x, y, tolerance):
         assert abs(x - y) < tolerance
     else:
         assert x == y
-        
+
 def test_distance():
     loc_1 = (3,3)
     loc_2 = (5,5)
     assertFloat(RoverTeam.distance(loc_1, loc_2), sqrt(8), tol)
 
 def test_get_quad_first():
-    in_first = (1,1)
+    in_first = (1, 1)
     assert RoverTeam.get_quad(in_first) == 0
 
 def test_get_quad_second():
-    in_second = (-1,1)
+    in_second = (-1, 1)
     assert RoverTeam.get_quad(in_second) == 1
 
 def test_get_quad_third():
-    in_third = (-1,-1)
+    in_third = (-1, -1)
     assert RoverTeam.get_quad(in_third) == 2
 
 def test_get_quad_fourth():
-    in_fourth = (1,-1)
+    in_fourth = (1, -1)
     assert RoverTeam.get_quad(in_fourth) == 3
 
 def test_quad_border():
@@ -49,12 +49,12 @@ def test_quad_border():
     assert RoverTeam.get_quad(on_xaxis) == 0
 
 def test_agent_observation_agent():
-    agent_loc = (3,3)
+    agent_loc = (3, 3)
     agent_theta = 0
     agent_info = {'loc' : agent_loc, 'theta' : agent_theta}
     w2a, _ = RoverTeam.get_transforms(agent_info)
 
-    other_loc = (2,2)
+    other_loc = (2, 2)
     other_theta = 0
     other_info = {'loc' : other_loc, 'theta' : other_theta}
 
@@ -69,12 +69,12 @@ def test_agent_observation_agent():
     assert obs[6] == expected[6]
 
 def test_agent_observation_poi():
-    agent_loc = (3,3)
+    agent_loc = (3, 3)
     agent_theta = 0
     agent_info = {'loc' : agent_loc, 'theta' : agent_theta}
     w2a, _ = RoverTeam.get_transforms(agent_info)
 
-    other_loc = (2,2)
+    other_loc = (2, 2)
     other_info = {'loc' : other_loc}
 
     agents = {'agent_1' : agent_info}
@@ -89,12 +89,12 @@ def test_agent_observation_poi():
     assert obs[2] == expected[2]
 
 def test_agent_observation_distance():
-    agent_loc = (3,3)
+    agent_loc = (3, 3)
     agent_theta = 0
     agent_info = {'loc' : agent_loc, 'theta' : agent_theta}
     w2a, _ = RoverTeam.get_transforms(agent_info)
 
-    other_loc = (5,5)
+    other_loc = (5, 5)
     other_theta = 0
     other_info = {'loc' : other_loc, 'theta' : other_theta}
 
@@ -109,7 +109,7 @@ def test_agent_observation_distance():
     assert obs[4] == expected[4]
 
 def test_get_transforms_origin():
-    loc = (0,0)
+    loc = (0, 0)
     theta = 0
     agent_info = {'loc' : loc, 'theta' : theta}
     w2a, _ = RoverTeam.get_transforms(agent_info)
@@ -119,7 +119,7 @@ def test_get_transforms_origin():
     assert w2a(*orig) == expected
 
 def test_get_transforms_origin_with_heading():
-    loc = (0,0)
+    loc = (0, 0)
     theta = pi / 2
     agent_info = {'loc' : loc, 'theta' : theta}
     w2a, _ = RoverTeam.get_transforms(agent_info)
@@ -129,11 +129,11 @@ def test_get_transforms_origin_with_heading():
     assertFloat (w2a(*orig), expected, tol)
 
 def test_get_transforms_different_point():
-    loc = (3,3)
+    loc = (3, 3)
     theta = 0
     agent_info = {'loc' : loc, 'theta' : theta}
     w2a, _ = RoverTeam.get_transforms(agent_info)
 
-    orig = (2,2)
-    expected = (-1,-1)
+    orig = (2, 2)
+    expected = (-1, -1)
     assertFloat( w2a(*orig), expected, tol)
