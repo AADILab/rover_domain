@@ -44,7 +44,7 @@ class RoverTeam(Team):
         """
         actions = {}
         agents = jointstate['agents']
-        for agent_id, info in agents:
+        for agent_id, info in agents.items():
             w2a, a2w = self.get_transforms(info)
             obs = self.get_agent_observation(jointstate, agent_id, w2a)
             action = self.agent_policies[agent_id](obs)
@@ -105,7 +105,7 @@ class RoverTeam(Team):
         for _, poi in jointstate['pois'].items():
             new_loc = world_to_agent(*poi['loc'])
             quad = self.get_quad(new_loc)
-            increment = 1 # Current no value to POI, change to poi['value']
+            increment = poi['value']
             if self.use_distance:
                 increment /= self.distance(poi['loc'], agent_loc)
             agent_obs[quad] += increment
@@ -145,7 +145,7 @@ class RoverTeam(Team):
 
     @staticmethod
     def distance(loc_1, loc_2):
-        """ distance
+        """ distance MOVE TO UTILITY CLASS
         L2 Norm of first two positions in loc_1 and loc_2. Unsafe.
 
         :returns: Euclidean distance between first two dimensions of input

@@ -127,7 +127,8 @@ class RoverDomain(Simulator):
         pois = []
         for _ in range(self.number_pois):
             poi = self.random_loc()
-            pois.append({'loc' : poi})
+            val = random.uniform(1, 10)
+            pois.append({'loc' : poi, 'value' : val})
         return pois
 
     def random_agents(self):
