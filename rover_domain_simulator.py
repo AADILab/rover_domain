@@ -71,10 +71,14 @@ class RoverDomain(Simulator):
         :param actions: dictionary mapping agent_id (same key as
         self.agent_poses) and [dx, dy]
         """
-        for agent_id, action in actions:
+
+        # unwrap agents dictionary
+        actions=actions['agents']
+        
+        for agent_id, action in actions.items():
             loc = self.agents[agent_id]['loc']
             loc = (loc[0] + action[0], loc[1] + action[1])
-            theta = math.atan2(action[1] / action[0])
+            theta = math.atan2(action[1], action[0])
             self.agents[agent_id] = {'loc' : loc, 'theta' : theta}
 
 
