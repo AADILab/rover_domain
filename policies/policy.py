@@ -105,5 +105,5 @@ class CCEA(object):
 
         for i, pool in enumerate(self.population):
             pool_results = results[i]
-            self.population[i] = self.selection(pool, pool_results)y
+            self.population[i] = self.selection(pool, pool_results)
         
