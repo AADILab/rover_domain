@@ -7,7 +7,7 @@ LICENSE GOES HERE
 from math import sqrt
 from heapq import heappush, heappop
 import numpy as np
-from reward import Reward
+from rewards.reward import Reward
 
 
 class GlobalReward(Reward):

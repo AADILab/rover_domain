@@ -9,7 +9,7 @@ LICENSE GOES HERE
 
 from math import cos, sin, sqrt
 import numpy as np
-from team import Team
+from teams.team import Team
 
 class RoverTeam(Team):
     """ RoverTeam

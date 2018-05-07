@@ -7,7 +7,7 @@ LICENSE GOES HERE
 import math
 import random
 import sys
-from simulator import Simulator
+from simulators.simulator import Simulator
 
 class RoverDomain(Simulator):
     """ Rover Domain

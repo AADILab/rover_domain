@@ -7,7 +7,7 @@ LICENSE GOES HERE
 
 import numpy as np
 from math import cos, sin, sqrt, pi
-from rover_team import RoverTeam
+from teams.rover_team import RoverTeam
 
 tol = 0.00001
 

@@ -1,5 +1,5 @@
-from rover_domain_simulator import RoverDomain
-from rover_team import RoverTeam
+from simulators.rover_domain_simulator import RoverDomain
+from teams.rover_team import RoverTeam
 
 
 
