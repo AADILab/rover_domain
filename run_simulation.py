@@ -1,6 +1,7 @@
 from simulators.rover_domain_simulator import RoverDomain
 from teams.rover_team import RoverTeam
 from policies.policy import RandomPolicy
+from rewards.g import GlobalReward
 
 
 
@@ -41,14 +42,23 @@ def main():
     team = RoverTeam(agent_policies_actions, use_distance)
 
 
+    # Initialize the reward function
+
+    # Reward parameters
+    coupling = 1
+    observation_radius = 3.0
+    min_dist = 1.0
+
+    global_reward = GlobalReward(coupling, observation_radius, min_dist)
+
     # Simulation loop
     steps = 100
 
+    # Get States from Rover Doman
+    joint_state = domain.update_jointstate()
+
     for step in range(steps):
         print("Step:", step)
-
-        # Get Agent States from Rover Doman
-        joint_state = domain.update_jointstate()
 
         print(joint_state['agents'])
 
@@ -57,6 +67,15 @@ def main():
 
         # Pass actions to domain to update
         domain.apply_actions(actions)
+
+        # Update the joint state
+        joint_state = domain.update_jointstate()
+
+        # Compute the Global Reward
+        global_reward.accept_jointstate(joint_state)
+        reward_G = global_reward.calculate_reward()
+
+        
 
 
 
