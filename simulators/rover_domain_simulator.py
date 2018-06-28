@@ -17,7 +17,7 @@ class RoverDomain(Simulator):
     """
     def __init__(self, seed=None, initial_poi_locs=None,
                  initial_agent_poses=None, number_agents=1,
-                 number_pois=1, world_width=30):
+                 number_pois=1, world_width=30, world_length=30):
         """ Create rover domain.
         If seed is passed, will initialize randomly. Otherwise, will initialize
         according to passed starting positions.
@@ -34,13 +34,15 @@ class RoverDomain(Simulator):
         initialized randomly. And agent pose is [(x,y), theta].
         :param number_agents: The number of rovers in the domain. Default is 1.
         :param number_pois: The number of pois in the domain. Default is 1.
-        :param world_width: The length and width of the square rover domain.
+        :param world_width: The width of the rover domain.
+        :param world_length: The length of the rover domain.
         """
         super(RoverDomain, self).__init__()
 
         self.number_agents = number_agents
         self.number_pois = number_pois
         self.world_width = world_width
+        self.world_length = world_length
 
         self.initial_vals = (initial_poi_locs, initial_agent_poses)
 
@@ -153,4 +155,4 @@ class RoverDomain(Simulator):
         Returns a random location within the bounds of the world
         """
         return [random.uniform(0, self.world_width),
-                random.uniform(0, self.world_width)]
+                random.uniform(0, self.world_length)]
