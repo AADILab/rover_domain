@@ -17,7 +17,7 @@ def main():
     # Initialize the rover domain.
     domain = RoverDomain(config_file["Seed"], config_file["Initial POI Locations"],
                          config_file["Initial Agent Positions"], config_file["Number of Agents"],
-                         config_file["Number of POIs"], config_file["World Width"])
+                         config_file["Number of POIs"], config_file["World Width"], config_file["World Length"])
 
     # Intialize the rover team.
     # Rover team parameters
