@@ -95,12 +95,21 @@ class RoverDomain(Simulator):
             loc = self.agents[agent_id]['loc']
 
             # Check if action moves agent within the world bounds.
-            if loc[0] + action[0] < 0 or loc[0] + action[0] > self.world_width or \
-               loc[1] + action[1] < 0 or loc[1] + action[1] > self.world_length:
-                print("Agent Moved Out of World Bounds")
-                exit()
+            if loc[0] + action[0] < 0:
+                x = 0
+            elif loc[0] + action[0] > self.world_width:
+                x = self.world_width
+            else:
+                x = loc[0] + action[0]
 
-            loc = (loc[0] + action[0], loc[1] + action[1])
+            if loc[1] + action[1] < 0:
+                x = 0
+            elif loc[1] + action[1] > self.world_length:
+                x = self.world_length
+            else:
+                y = loc[1] + action[1]
+
+            loc = (x, y)
             theta = math.atan2(action[1], action[0])
             self.agents[agent_id] = {'loc': loc, 'theta': theta}
 
