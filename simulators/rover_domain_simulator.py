@@ -44,8 +44,22 @@ class RoverDomain(Simulator):
         self.world_width = world_width
         self.world_length = world_length
 
-        self.initial_vals = (initial_poi_locs, initial_agent_poses)
+        # Check if initial poi and agent locations are within world bounds.
+        # Assumes locations inputted are all either randomized or specified.
+        if initial_poi_locs is not None:
+            for loc in range(self.number_pois):
+                if initial_poi_locs[loc][0] < 0 or initial_poi_locs[loc][0] > self.world_width or \
+                   initial_poi_locs[loc][1] < 0 or initial_poi_locs[loc][1] > self.world_length:
+                    print("POI " + str(loc) + " Location is Out of World Bounds")
+                    exit()
+        if initial_agent_poses is not None:
+            for pos in range(self.number_agents):
+                if initial_agent_poses[pos][0] < 0 or initial_agent_poses[pos][0] > self.world_width or \
+                   initial_agent_poses[pos][1] < 0 or initial_agent_poses[pos][1] > self.world_length:
+                    print("Agent " + str(pos) + " Location is Out of World Bounds")
+                    exit()
 
+        self.initial_vals = (initial_poi_locs, initial_agent_poses)
         self.seed_random(seed)
         self.initialize()
 
@@ -75,17 +89,33 @@ class RoverDomain(Simulator):
         """
 
         # unwrap agents dictionary
-        actions=actions['agents']
-        
+        actions = actions['agents']
+
         for agent_id, action in actions.items():
             loc = self.agents[agent_id]['loc']
-            loc = (loc[0] + action[0], loc[1] + action[1])
+
+            # Check if action moves agent within the world bounds.
+            if loc[0] + action[0] < 0:
+                x = 0
+            elif loc[0] + action[0] > self.world_width:
+                x = self.world_width
+            else:
+                x = loc[0] + action[0]
+
+            if loc[1] + action[1] < 0:
+                x = 0
+            elif loc[1] + action[1] > self.world_length:
+                x = self.world_length
+            else:
+                y = loc[1] + action[1]
+
+            loc = (x, y)
             theta = math.atan2(action[1], action[0])
-            self.agents[agent_id] = {'loc' : loc, 'theta' : theta}
+            self.agents[agent_id] = {'loc': loc, 'theta': theta}
 
 
-    def update_jointstate(self):
-        return {"agents" : self.agents, "pois" : self.pois}
+    def get_jointstate(self):
+        return {"agents": self.agents, "pois": self.pois}
 
     def initialize(self):
         """ initialize

@@ -3,6 +3,7 @@ from teams.rover_team import RoverTeam
 from policies.policy import RandomPolicy
 from rewards.g import GlobalReward
 import yaml
+import sys
 
 
 def main():
@@ -11,7 +12,11 @@ def main():
         This function contains the initial trial to run the rover domain.
     """
     # Read and store parameters from configuration file.
-    with open('config.yml', 'r') as f:
+    if len(sys.argv) is 1:
+        config_f = "config.yml"
+    else:
+        config_f = sys.argv[1]
+    with open(config_f, 'r') as f:
         config_file = yaml.load(f)
 
     # Initialize the rover domain.
@@ -38,7 +43,7 @@ def main():
                                  config_file["Minimum Distance"])
 
     # Get States from Rover Doman
-    joint_state = domain.update_jointstate()
+    joint_state = domain.get_jointstate()
 
     for step in range(config_file["Steps"]):
         print("Step:", step)
@@ -52,7 +57,7 @@ def main():
         domain.apply_actions(actions)
 
         # Update the joint state
-        joint_state = domain.update_jointstate()
+        joint_state = domain.get_jointstate()
 
         # Compute the Global Reward
         global_reward.accept_jointstate(joint_state)
