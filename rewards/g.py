@@ -32,6 +32,11 @@ class GlobalReward(Reward):
         self.observation_radius = observation_radius
         self.min_dist = min_dist
 
+    def record_history(self, jointstate):
+        """ 
+        """
+        self.history.append(jointstate)
+
     def calculate_reward(self):
         """ calculate_reward
         """
@@ -42,15 +47,15 @@ class GlobalReward(Reward):
         poi_reward = {}
 
         # for each time step, check to see if there are any agents 
-        #within observation_radius of each POI
-
+        # within observation_radius of each POI
+        #
         # If there are more than coupling agents within range,
         # compute the POI reward for that time step by 
         # taking POI value/average distance away of each agent
-
+        #
         # The overall reward from that POI is the maximum reward that has been
         # achieved over all time steps.
-
+        
         for timestep in self.history:
             for poi_id, poi_info in timestep['pois'].items():
                 poi_obs = []
