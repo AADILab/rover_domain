@@ -62,6 +62,9 @@ class RoverDomain(Simulator):
         self.initial_vals = (initial_poi_locs, initial_agent_poses)
         self.seed_random(seed)
         self.initialize()
+    
+    def __repr__(self):
+        return "POI: {0!r} Rovers: {1!r}".format(self.pois, self.agents)
 
     def reset(self):
         """ reset

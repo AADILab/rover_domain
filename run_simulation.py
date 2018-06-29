@@ -4,6 +4,7 @@ from policies.policy import RandomPolicy
 from policies.policy import CCEA
 from policies.policy import Evo_MLP
 from rewards.g import GlobalReward
+from policies.policy import CCEA
 import yaml
 import sys
 
@@ -12,7 +13,6 @@ def EvaluateTeam(team, domain, reward, steps):
         #print(domain)
         # Get States from Rover Doman
         joint_state = domain.get_jointstate()
-
 
         # Get the actions from the team
         actions = team.get_jointaction(joint_state)
@@ -28,7 +28,6 @@ def EvaluateTeam(team, domain, reward, steps):
     reward_G = reward.calculate_reward()
     print("Reward: ", reward_G)
     return team, domain, reward_G
-
 
 def main():
     """
@@ -67,8 +66,6 @@ def main():
         #print(team, domain, fitness)
         # CCEA Evaluation
         CCEA(team, fitness)
-
-
 
 if __name__ == '__main__':
     main()
