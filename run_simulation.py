@@ -10,8 +10,11 @@ def main():
 
         This function contains the initial trial to run the rover domain.
     """
+    # Read configuration file name from command line.
+    config_f = input("Enter Configuration File Name for Testing: ")
+
     # Read and store parameters from configuration file.
-    with open('config.yml', 'r') as f:
+    with open(config_f, 'r') as f:
         config_file = yaml.load(f)
 
     # Initialize the rover domain.
