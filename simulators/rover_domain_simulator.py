@@ -43,10 +43,21 @@ class RoverDomain(Simulator):
         self.number_pois = number_pois
         self.world_width = world_width
         self.world_length = world_length
-#check that initial poi and agent locations are within world bounds
+
+        # Check if initial poi and agent locations are within world bounds.
+        # Assumes locations inputted are all either randomized or specified.
+        if initial_poi_locs is not None:
+            for loc in range(self.number_pois):
+                if initial_poi_locs[loc][0] > self.world_width and initial_poi_locs[loc][1] > self.world_length:
+                    print("POI " + str(loc) + " Location is Out of World Bounds")
+                    exit()
+        if initial_agent_poses is not None:
+            for pos in range(self.number_agents):
+                if initial_agent_poses[pos][0] > self.world_width and initial_agent_poses[pos][1] > self.world_length:
+                    print("Agent " + str(pos) + " Location is Out of World Bounds")
+                    exit()
 
         self.initial_vals = (initial_poi_locs, initial_agent_poses)
-
         self.seed_random(seed)
         self.initialize()
 
@@ -76,17 +87,23 @@ class RoverDomain(Simulator):
         """
 
         # unwrap agents dictionary
-        actions=actions['agents']
-#check that location change is valid
+        actions = actions['agents']
+
         for agent_id, action in actions.items():
             loc = self.agents[agent_id]['loc']
+
+            # Check if action moves agent within the world bounds.
+            if loc[0] + action[0] > self.world_width or loc[1] + action[1] > self.world_length:
+                print("Agent Moved Out of World Bounds")
+                exit()
+
             loc = (loc[0] + action[0], loc[1] + action[1])
             theta = math.atan2(action[1], action[0])
-            self.agents[agent_id] = {'loc' : loc, 'theta' : theta}
+            self.agents[agent_id] = {'loc': loc, 'theta': theta}
 
 
     def get_jointstate(self):
-        return {"agents" : self.agents, "pois" : self.pois}
+        return {"agents": self.agents, "pois": self.pois}
 
     def initialize(self):
         """ initialize
