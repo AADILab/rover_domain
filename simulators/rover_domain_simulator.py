@@ -43,6 +43,7 @@ class RoverDomain(Simulator):
         self.number_pois = number_pois
         self.world_width = world_width
         self.world_length = world_length
+#check that initial poi and agent locations are within world bounds
 
         self.initial_vals = (initial_poi_locs, initial_agent_poses)
 
@@ -76,7 +77,7 @@ class RoverDomain(Simulator):
 
         # unwrap agents dictionary
         actions=actions['agents']
-        
+#check that location change is valid
         for agent_id, action in actions.items():
             loc = self.agents[agent_id]['loc']
             loc = (loc[0] + action[0], loc[1] + action[1])
@@ -84,7 +85,7 @@ class RoverDomain(Simulator):
             self.agents[agent_id] = {'loc' : loc, 'theta' : theta}
 
 
-    def update_jointstate(self):
+    def get_jointstate(self):
         return {"agents" : self.agents, "pois" : self.pois}
 
     def initialize(self):
