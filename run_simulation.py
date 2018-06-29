@@ -38,7 +38,7 @@ def main():
                                  config_file["Minimum Distance"])
 
     # Get States from Rover Doman
-    joint_state = domain.update_jointstate()
+    joint_state = domain.get_jointstate()
 
     for step in range(config_file["Steps"]):
         print("Step:", step)
@@ -52,7 +52,7 @@ def main():
         domain.apply_actions(actions)
 
         # Update the joint state
-        joint_state = domain.update_jointstate()
+        joint_state = domain.get_jointstate()
 
         # Compute the Global Reward
         global_reward.accept_jointstate(joint_state)
