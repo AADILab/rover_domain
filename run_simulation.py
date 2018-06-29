@@ -3,6 +3,7 @@ from teams.rover_team import RoverTeam
 from policies.policy import RandomPolicy
 from rewards.g import GlobalReward
 import yaml
+import sys
 
 
 def main():
@@ -10,10 +11,11 @@ def main():
 
         This function contains the initial trial to run the rover domain.
     """
-    # Read configuration file name from command line (not console).
-    config_f = input("Enter Configuration File Name for Testing: ")
-
     # Read and store parameters from configuration file.
+    if len(sys.argv) is 1:
+        config_f = "config.yml"
+    else:
+        config_f = sys.argv[1]
     with open(config_f, 'r') as f:
         config_file = yaml.load(f)
 
