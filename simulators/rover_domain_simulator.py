@@ -48,12 +48,12 @@ class RoverDomain(Simulator):
         # Assumes locations inputted are all either randomized or specified.
         if initial_poi_locs is not None:
             for loc in range(self.number_pois):
-                if initial_poi_locs[loc][0] > self.world_width and initial_poi_locs[loc][1] > self.world_length:
+                if initial_poi_locs[loc][0] > self.world_width or initial_poi_locs[loc][1] > self.world_length:
                     print("POI " + str(loc) + " Location is Out of World Bounds")
                     exit()
         if initial_agent_poses is not None:
             for pos in range(self.number_agents):
-                if initial_agent_poses[pos][0] > self.world_width and initial_agent_poses[pos][1] > self.world_length:
+                if initial_agent_poses[pos][0] > self.world_width or initial_agent_poses[pos][1] > self.world_length:
                     print("Agent " + str(pos) + " Location is Out of World Bounds")
                     exit()
 
