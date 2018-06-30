@@ -67,5 +67,6 @@ def main():
         # CCEA Evaluation
         CCEA(team, fitness)
 
+
 if __name__ == '__main__':
     main()

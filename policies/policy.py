@@ -55,7 +55,6 @@ class Evo_MLP(nn.Module, Policy):
         self.fc1.weight *= Tensor(random_w1)
         self.fc2.weight *= Tensor(random_w2)
 
-
 def CCEA(population, fitness, retain=0.2):
     '''
     Implements the basic CCEA algorithm with binary tournaments.
