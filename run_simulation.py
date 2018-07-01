@@ -4,7 +4,6 @@ from policies.policy import RandomPolicy
 from policies.policy import CCEA
 from policies.policy import Evo_MLP
 from rewards.g import GlobalReward
-from policies.policy import CCEA
 import yaml
 import sys
 
@@ -63,7 +62,6 @@ def main():
 
     for generation in range(config["Epochs"]):
         team, domain, fitness = EvaluateTeam(team, domain, global_reward, config["Steps"])
-        #print(team, domain, fitness)
         # CCEA Evaluation
         CCEA(team, fitness)
 
