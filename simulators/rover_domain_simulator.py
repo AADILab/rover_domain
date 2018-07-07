@@ -103,9 +103,9 @@ class RoverDomain(Simulator):
                 x = loc[0] + action[0]
 
             if loc[1] + action[1] < 0:
-                x = 0
+                y = 0
             elif loc[1] + action[1] > self.world_length:
-                x = self.world_length
+                y = self.world_length
             else:
                 y = loc[1] + action[1]
 

@@ -52,9 +52,9 @@ def main():
         if gen % 10 == 0:
             print("GEN: ", gen)
         for step in range(config_file["Steps"]):
-            print("Step:", step)
+            #print("Step:", step)
 
-            print(joint_state['agents'])
+            #print(joint_state['agents'])
 
             # Get the actions from the team
             actions = team.get_jointaction(joint_state)
@@ -68,6 +68,8 @@ def main():
             # Compute the Global Reward
             global_reward.accept_jointstate(joint_state)
             reward_G = global_reward.calculate_reward()
+
+        print("G: ", reward_G)
 
 
 

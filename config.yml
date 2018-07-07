@@ -8,4 +8,5 @@ World Length: 30
 Coupling: 1
 Observation Radius: 3.0
 Minimum Distance: 1.0
-Steps: 100
+Steps: 40
+Epochs: 1000
