@@ -1,6 +1,8 @@
 from simulators.rover_domain_simulator import RoverDomain
 from teams.rover_team import RoverTeam
 from policies.policy import RandomPolicy
+from policies.policy import CCEA_f
+from policies.policy import Evo_MLP
 from rewards.g import GlobalReward
 import yaml
 import sys
@@ -31,7 +33,7 @@ def main():
 
     # For every agent, assign it a policy that maps input numpy vector x to dx,dy, currently just Random policy
     for i in range(config_file["Number of Agents"]):
-        agent_policies["agent_" + str(i)] = RandomPolicy(2)
+        agent_policies["agent_" + str(i)] = Evo_MLP(8, 2)
         agent_policies_actions["agent_" + str(i)] = agent_policies["agent_" + str(i)].get_next()
 
     use_distance = True
@@ -45,23 +47,28 @@ def main():
     # Get States from Rover Doman
     joint_state = domain.get_jointstate()
 
-    for step in range(config_file["Steps"]):
-        print("Step:", step)
+    for gen in range(config_file["Epochs"]):
+        domain.reset()
+        if gen % 10 == 0:
+            print("GEN: ", gen)
+        for step in range(config_file["Steps"]):
+            print("Step:", step)
 
-        print(joint_state['agents'])
+            print(joint_state['agents'])
 
-        # Get the actions from the team
-        actions = team.get_jointaction(joint_state)
+            # Get the actions from the team
+            actions = team.get_jointaction(joint_state)
 
-        # Pass actions to domain to update
-        domain.apply_actions(actions)
+            # Pass actions to domain to update
+            domain.apply_actions(actions)
 
-        # Update the joint state
-        joint_state = domain.get_jointstate()
+            # Update the joint state
+            joint_state = domain.get_jointstate()
 
-        # Compute the Global Reward
-        global_reward.accept_jointstate(joint_state)
-        reward_G = global_reward.calculate_reward()
+            # Compute the Global Reward
+            global_reward.accept_jointstate(joint_state)
+            reward_G = global_reward.calculate_reward()
+
 
 
 if __name__ == '__main__':

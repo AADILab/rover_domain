@@ -107,3 +107,22 @@ class CCEA(object):
             pool_results = results[i]
             self.population[i] = self.selection(pool, pool_results)
         
+def CCEA_f(population, fitness, retain=0.2):
+    '''
+    Implements the basic CCEA algorithm with binary tournaments.
+    Maintains 20% of the population each time by default.
+    '''
+    population_size = len(population)
+    scored_pop = zip(population, fitness)
+    scored_pop = sorted(scored_pop, key=lambda x: x[1],reverse=True)
+    # retain x% of the population
+    scored_pop = scored_pop[:int(population_size*retain)]
+    scored_pop_len = len(scored_pop)
+    for _ in range(population_size - len(scored_pop)):
+        # We only choose from the unmutated survivors
+        choice = random.choice(scored_pop[:scored_pop_len])
+        choice.mutate()
+        scored_pop.append(choice)
+    # Return the evaluated population.
+    return scored_pop
+
