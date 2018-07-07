@@ -22,7 +22,7 @@ class Reward(object):
         passing system, in which case accept_jointstate will be the queue
         consumer.
         """
-        pass
+        self.history = []
 
     def accept_jointstate(self, jointstate):
         """ accept_jointstate
@@ -35,7 +35,7 @@ class Reward(object):
         needed to calculate the reward (possibly with history).
         :returns: Nothing
         """
-        pass
+        self.history.append(jointstate)
 
     def calculate_reward(self):
         """ calculate_reward
@@ -44,7 +44,7 @@ class Reward(object):
 
         :returns: array of rewards, one per agent.
         """
-        pass
+        raise NotImplemented 
 
     def clear(self):
         """ clear
@@ -52,4 +52,4 @@ class Reward(object):
 
         :returns: Nothing
         """
-        pass
+        self.history = []

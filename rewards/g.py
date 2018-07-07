@@ -32,11 +32,6 @@ class GlobalReward(Reward):
         self.observation_radius = observation_radius
         self.min_dist = min_dist
 
-    def accept_jointstate(self, jointstate):
-        """ accept_jointstate
-        """
-        self.history.append(jointstate)
-
     def calculate_reward(self):
         """ calculate_reward
         """
@@ -78,9 +73,6 @@ class GlobalReward(Reward):
             reward[agent_id] = g_reward
 
         return reward
-
-    def clear(self):
-        self.history = []
 
     @staticmethod
     def distance(loc_1, loc_2):
