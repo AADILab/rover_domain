@@ -45,7 +45,7 @@ class RoverTeam(Team):
             w2a, a2w = self.get_transforms(info)
             obs = self.get_agent_observation(jointstate, agent_id, w2a)
             action = self.agent_policies[agent_id](obs)
-            dx_a, dy_a = action
+            dx_a, dy_a = action[0].item(), action[1].item()
             actions[agent_id] = a2w(dx_a, dy_a)
 
         return {'agents' : actions}
