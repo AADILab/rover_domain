@@ -22,7 +22,7 @@ class Reward(object):
         passing system, in which case record_history will be the queue
         consumer.
         """
-        pass
+        self.history = []
 
     def record_history(self, jointstate):
         """ record_history
@@ -35,7 +35,7 @@ class Reward(object):
         needed to calculate the reward (possibly with history).
         :returns: Nothing
         """
-        pass
+        self.history.append(jointstate)
 
     def calculate_reward(self):
         """ calculate_reward
@@ -52,4 +52,4 @@ class Reward(object):
 
         :returns: Nothing
         """
-        pass
+        self.history = []

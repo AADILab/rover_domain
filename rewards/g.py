@@ -32,11 +32,6 @@ class GlobalReward(Reward):
         self.observation_radius = observation_radius
         self.min_dist = min_dist
 
-    def record_history(self, jointstate):
-        """ 
-        """
-        self.history.append(jointstate)
-
     def calculate_reward(self):
         """ calculate_reward
         """
