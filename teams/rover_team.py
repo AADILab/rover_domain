@@ -25,6 +25,7 @@ class RoverTeam(Team):
         """
         super(RoverTeam, self).__init__()
         self.agent_policies = agent_policies
+        self.num_agents = len(self.agent_policies)
 
     def get_jointaction(self, jointstate):
         """ get_jointaction
@@ -44,7 +45,7 @@ class RoverTeam(Team):
         for agent_id, info in agents.items():
             w2a, a2w = self.get_transforms(info)
             obs = self.get_agent_observation(jointstate, agent_id, w2a)
-            action = self.agent_policies[agent_id](obs)
+            action = self.agent_policies[agent_id].get_next(obs)
             dx_a, dy_a = action[0].item(), action[1].item()
             actions[agent_id] = a2w(dx_a, dy_a)
 
@@ -100,7 +101,7 @@ class RoverTeam(Team):
         for _, poi in jointstate['pois'].items():
             new_loc = world_to_agent(*poi['loc'])
             quad = self.get_quad(new_loc)
-            increment = poi['value'] / self.distance(poi['loc'], agent_loc)
+            increment = poi['value'] / max(self.distance(poi['loc'], agent_loc), 0.01)
             agent_obs[quad] += increment
 
         for other_id, agent in jointstate['agents'].items():
@@ -108,7 +109,7 @@ class RoverTeam(Team):
                 continue
             new_loc = world_to_agent(*agent['loc'])
             quad = self.get_quad(new_loc)
-            increment = 1 / self.distance(agent['loc'], agent_loc)
+            increment = 1 / max(self.distance(agent['loc'], agent_loc), 0.01)
             agent_obs[quad + 4] += increment
 
         return agent_obs
